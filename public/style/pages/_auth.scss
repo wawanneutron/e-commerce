@@ -1,0 +1,26 @@
+.page-auth {
+  .row-login {
+    min-height: 75vh;
+  }
+  .section-store-auth {
+    img {
+      @include media-breakpoint-down(md) {
+        max-width: 250px !important;
+      }
+    }
+    h2 {
+      font-weight: normal;
+      font-size: 28px;
+      line-height: 42px;
+      color: #0c0d36;
+    }
+    .form-control {
+      border-radius: 8px;
+      background-color: #f3f3f3;
+    }
+    .btn-signup {
+      @include button-variant(#f3f3f3, transparent);
+      color: #bbbbbb;
+    }
+  }
+}

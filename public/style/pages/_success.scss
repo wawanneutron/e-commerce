@@ -1,0 +1,24 @@
+.page-success {
+  .row-login {
+    min-height: 75vh;
+  }
+  .section-success {
+    h2 {
+      font-weight: normal;
+      font-size: 28px;
+      line-height: 42px;
+      color: #0c0d36;
+    }
+    p {
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 180%;
+      text-align: center;
+      color: #525252;
+    }
+    .btn-signup {
+      @include button-variant(#f3f3f3, transparent);
+      color: #bbb;
+    }
+  }
+}
