@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class DashboardProductController extends Controller
      */
     public function index()
     {
-        return view('pages.dashboard.product.index');
+        return view('pages.dashboard.user.product.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class DashboardProductController extends Controller
      */
     public function create()
     {
-        return view('pages.dashboard.product.create-product');
+        return view('pages.dashboard.user.product.create-product');
     }
 
     /**
@@ -46,7 +46,7 @@ class DashboardProductController extends Controller
      */
     public function show()
     {
-        return view('pages.dashboard.product.product-details');
+        return view('pages.dashboard.user.product.product-details');
     }
 
     /**
