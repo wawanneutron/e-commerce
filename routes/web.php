@@ -48,6 +48,8 @@ Route::prefix('admin')
   ->group(function () {
     Route::get('/dashboard', 'DashboardController@index')
       ->name('admin-dashboard');
+    Route::resource('/dashboard-category', 'CategoryController');
+    Route::resource('/account-user', 'UserController');
   });
 
 Auth::routes();
