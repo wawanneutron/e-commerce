@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                   <label for="">Email</label>
-                  <input type="email" name="email" class="form-control @error ('email') is-valid @enderror" value="{{ old('email') }}" placeholder="email">
+                  <input type="email" name="email" class="form-control @error ('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="email">
                   @error('email')
                       <div class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                   <label for="">Password</label>
-                  <input type="password" name="password" class="form-control @error ('password') is-valid @enderror" value="{{ old('password') }}">
+                  <input type="password" name="password" class="form-control @error ('password') is-invalid @enderror" value="{{ old('password') }}">
                   @error('password')
                       <div class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

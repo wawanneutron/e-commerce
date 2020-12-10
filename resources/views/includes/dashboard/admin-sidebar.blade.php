@@ -8,7 +8,7 @@
     <div class="list-group list-group-flush">
       <a
         href="{{ route('admin-dashboard') }}"
-        class="list-group-item list-group-item-action"
+        class="list-group-item list-group-item-action {{ (request()->is('admin/dashboard')) ? 'active' : '' }}"
         >Dashboard</a
       >
       <a
@@ -17,8 +17,8 @@
         >Products</a
       >
       <a
-        href="#"
-        class="list-group-item list-group-item-action"  
+        href="{{ route('dashboard-category.index') }}"
+        class="list-group-item list-group-item-action {{ (request()->is('admin/dashboard-category')) ? 'active' : '' }}"  
         >Categories</a
       >
       <a
@@ -27,8 +27,8 @@
         >Transactions</a
       >
       <a
-        href="{{ route('account-settings') }}"
-        class="list-group-item list-group-item-action"
+        href="{{ route('account-user.index') }}"
+        class="list-group-item list-group-item-action {{ (request()->is('admin/account-user', 'admin/account-user/create')) ? 'active' : '' }}"
         >Users</a
       >
     </div>

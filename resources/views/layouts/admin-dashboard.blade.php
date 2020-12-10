@@ -27,6 +27,8 @@
 
         <!--pgae content -->
         <div id="page-content-wrapper">
+          {{-- alert --}}
+          @include('includes.dashboard.alert')
           
           {{-- navbar --}}
           @include('includes.dashboard.admin-navbar')

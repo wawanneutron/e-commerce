@@ -49,6 +49,7 @@
 @push('addon-script')
     <script>
       $('#crudTable').DataTable({
+        
         processing: true,
         serverSide: true,
         ordering: true,
@@ -58,8 +59,9 @@
         columns: [
           { data: 'id', name: 'id' },
           { data: 'name', name: 'name' },
-          { data: 'photo', name: 'photo' },
-          { data: 'slug', name: 'slug' },
+          { data: 'email', name: 'email' },
+          { data: 'avatar', name: 'avatar' },
+          { data: 'roles', name: 'roles' },
           {
             data: 'action',
             name: 'action',
