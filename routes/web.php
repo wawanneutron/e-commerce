@@ -50,6 +50,7 @@ Route::prefix('admin')
       ->name('admin-dashboard');
     Route::resource('/dashboard-category', 'CategoryController');
     Route::resource('/account-user', 'UserController');
+    Route::resource('/dashboard-products', 'ProductController');
   });
 
 Auth::routes();

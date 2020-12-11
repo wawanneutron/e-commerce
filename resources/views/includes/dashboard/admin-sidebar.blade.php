@@ -12,13 +12,13 @@
         >Dashboard</a
       >
       <a
-        href="#"
-        class="list-group-item list-group-item-action"  
+        href="{{ route('dashboard-products.index') }}"
+        class="list-group-item list-group-item-action {{ request()->is('admin/dashboard-products', 'admin/dashboard-products/create', 'admin/dashboard-products/{id}/edit') ? 'active' : '' }}"  
         >Products</a
       >
       <a
         href="{{ route('dashboard-category.index') }}"
-        class="list-group-item list-group-item-action {{ (request()->is('admin/dashboard-category')) ? 'active' : '' }}"  
+        class="list-group-item list-group-item-action {{ (request()->is('admin/dashboard-category', 'admin/dashboard-category/create', 'admin/dashboard-category/{id}/edit')) ? 'active' : '' }}"  
         >Categories</a
       >
       <a
