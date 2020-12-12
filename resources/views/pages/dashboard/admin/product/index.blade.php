@@ -48,28 +48,38 @@
 
 @push('addon-script')
     <script>
-      $('#crudTable').DataTable({
-        
-        processing: true,
-        serverSide: true,
-        ordering: true,
-        ajax: {
-          url: '{!! url()->current() !!}',
-        },
-        columns: [
-          { data: 'id', name: 'id' },
-          { data: 'name', name: 'name' },
-          { data: 'user.name', name: 'user.name' },
-          { data: 'category.name', name: 'category.name' },
-          { data: 'price', name: 'price' },
-          {
-            data: 'action',
-            name: 'action',
-            orderable: false,
-            searcable: false,
+      $(document).ready(function() {
+          $('#crudTable').DataTable({  
+          processing: true,
+          serverSide: true,
+          ordering: true,
+          ajax: {
+            url: '{!! url()->current() !!}',
           },
-        ],
-        
+          columns: [
+            { data: 'id', name: 'id' },
+            { data: 'name', name: 'name' },
+            { data: 'user.name', name: 'user.name' },
+            { data: 'category.name', name: 'category.name' },
+            {
+              data: 'price', name: 'price',
+              render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp ' )
+            },
+            {
+              data: 'action',
+              name: 'action',
+              orderable: false,
+              searcable: false,
+            },
+            ],
+             dom: 'lBfrtip',
+              buttons: [
+                'excel', 'pdf', 'copy', 'print'
+              ],
+              "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ]
+  
+        });
       });
+      
     </script>
 @endpush

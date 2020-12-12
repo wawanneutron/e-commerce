@@ -65,7 +65,7 @@
             data-aos="fade-up"
             data-aos-delay="{{ $incrementCategory += 100 }}"
             >
-              <a href="#" class="component-categories d-block">
+              <a href="{{ route('categories-detail', $category->slug) }}" class="component-categories d-block">
                 <div class="categories-image">
                   <img
                     src="{{ Storage::url($category->photo) }}"
