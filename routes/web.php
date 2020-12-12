@@ -9,7 +9,9 @@ Route::get('/', 'HomeController@index')
   ->name('home');
 Route::get('/categories', 'CategoryController@index')
   ->name('categories');
-Route::get('/details', 'DetailController@index')
+Route::get('/categories/{id}', 'CategoryController@detail')
+  ->name('categories-detail');
+Route::get('/details/{slug}', 'DetailController@index')
   ->name('details');
 Route::get('/cart', 'CartController@index')
   ->name('cart');
@@ -51,6 +53,7 @@ Route::prefix('admin')
     Route::resource('/dashboard-category', 'CategoryController');
     Route::resource('/account-user', 'UserController');
     Route::resource('/dashboard-products', 'ProductController');
+    Route::resource('/dashboard-gallery', 'GalleryController');
   });
 
 Auth::routes();

@@ -29,7 +29,7 @@ class Product extends Model
         return $this->hasOne(User::class, 'id', 'users_id');
     }
 
-    /* Product hanya dimiliki oleh satu category saja */
+    /* Product hanya dimiliki oleh category saja */
     public function category()
     {
         return $this->belongsTo(Category::class, 'categories_id', 'id');
