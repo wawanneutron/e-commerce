@@ -131,14 +131,14 @@
             <div class="formg-group" v-if="is_store_open">
               <label for="">Category</label>
               <select
-                name="category"
+                name="categories_id"
                 id="category"
                 class="custom-select form-control"
               >
                 <option value="" disabled>Select Category</option>
-                {{-- @foreach ($categories as $category)
+                @foreach ($categories as $category)
                   <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach --}}
+                @endforeach
               </select> 
             </div>
             <div class="btn-register">
