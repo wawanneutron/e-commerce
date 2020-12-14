@@ -38,66 +38,40 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td style="width: 30%" class="align-middle">
-                    <img
-                      src="/images/pic_detail1.jpg"
-                      alt=""
-                      class="cart-image w-100"
-                    />
-                  </td>
-                  <td style="width: 30%" class="align-middle">
-                    <div class="product-title">Sofa Ternyaman</div>
-                    <div class="product-subtitle">by Wawan setiawan</div>
-                  </td>
-                  <td style="width: 25%" class="align-middle">
-                    <div class="product-title">$29,112</div>
-                    <div class="product-subtitle">USD</div>
-                  </td>
-                  <td style="width: 30%" class="align-middle">
-                    <a href="#" class="btn btn-remove-cart">Remove</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="width: 20%">
-                    <img
-                      src="/images/pic_detail3.jpg"
-                      alt=""
-                      class="cart-image w-100"
-                    />
-                  </td>
-                  <td style="width: 30%" class="align-middle">
-                    <div class="product-title">Sofa Ternyaman</div>
-                    <div class="product-subtitle">by Fajrin</div>
-                  </td>
-                  <td style="width: 25%" class="align-middle">
-                    <div class="product-title">$43,112</div>
-                    <div class="product-subtitle">USD</div>
-                  </td>
-                  <td style="width: 30%" class="align-middle">
-                    <a href="#" class="btn btn-remove-cart">Remove</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="width: 20%" class="align-middle">
-                    <img
-                      src="/images/pic_detail5.jpg"
-                      alt=""
-                      class="cart-image w-100"
-                    />
-                  </td>
-                  <td style="width: 30%" class="align-middle">
-                    <div class="product-title">Sofa Ternyaman</div>
-                    <div class="product-subtitle">by Amel</div>
-                  </td>
-                  <td style="width: 25%" class="align-middle">
-                    <div class="product-title">$26,112</div>
-                    <div class="product-subtitle">USD</div>
-                  </td>
-                  <td style="width: 30%" class="align-middle">
-                    <a href="#" class="btn btn-remove-cart">Remove</a>
-                  </td>
-                </tr>
+                @forelse ($carts as $cart)
+                  <tr>
+                    <td style="width: 30%" class="align-middle">
+                      <img
+                        @if ($cart->product->galleries->count())
+                          src="{{ Storage::url($cart->product->galleries->first()->photos) }}"
+                          alt=""
+                          class="cart-image w-100"
+                        @else
+                          style="background-color: #eee;"
+                        @endif
+                      />
+                    </td>
+                    <td style="width: 30%" class="align-middle">
+                      <div class="product-title">{{ $cart->product->name }}</div>
+                      <div class="product-subtitle">{{ $cart->product->user->store_name }}</div>
+                    </td>
+                    <td style="width: 25%" class="align-middle">
+                      <div class="product-title">Rp. {{ number_format($cart->product->price)}} ,-</div>
+                      <div class="product-subtitle">rupiah</div>
+                    </td>
+                    <td style="width: 30%" class="align-middle">
+                      <form action="{{ route('cart-delete', $cart->id) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="btn btn-remove-cart">
+                          Remove
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                @empty
+                    
+                @endforelse
               </tbody>
             </table>
           </div>

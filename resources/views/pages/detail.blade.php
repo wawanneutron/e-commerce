@@ -67,16 +67,28 @@
           <div class="container">
             <div class="row">
               <div class="col-lg-8">
-                <h1>Sofa Ternyaman</h1>
-                <div class="owner">By Wawan setiawan</div>
-                <div class="price">$1,409</div>
+                <h1 class="mb-3">{{ $product->name }}</h1>
+                <div class="owner mb-0">Owner {{ $product->user->name }}</div>
+                <div class="owner">Toko {{ $product->user->store_name }}</div>
+                <div class="price">@currency($product->price)</div>
               </div>
               <div class="col-lg-2" data-aos="zoom-in">
-                <a
-                  href="{{ route('cart') }}"
-                  class="btn btn-success px-4 text-white btn-block mt-2 mb-3"
-                  >Add to Cart</a
-                >
+                @auth
+                  <form method="POST" action="{{ route('detail-add', $product->id) }}" enctype="multipart/form-data">
+                    @csrf
+                    <button
+                      type="submit"
+                      class="btn btn-success px-4 text-white btn-block mt-2 mb-3"
+                      >Add to Cart
+                    </button>
+                  </form>
+                @else
+                  <a
+                    href="{{ route('login') }}"
+                    class="btn btn-success px-4 text-white btn-block mt-2 mb-3"
+                    >Sign in to Add
+                  </a>
+                @endauth
               </div>
             </div>
           </div>
@@ -91,23 +103,7 @@
             <div class="row">
               <div class="col-12 col-lg-8">
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Quibusdam blanditiis voluptate obcaecati pariatur, minus
-                  libero iusto distinctio corrupti, sed repellat nobis
-                  repudiandae enim officiis, dolorum atque nemo! Consequatur,
-                  eaque est. tempore aperiam modi tenetur illum, recusandae
-                  consectetur animi. Quas exercitationem deleniti recusandae
-                  aliquam. Animi optio non dolor in dignissimos? Sit, blanditiis
-                  excepturi.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-                  porro fuga, eos nihil sint officia! Nam omnis nihil
-                  repudiandae minus amet? Voluptatum quo sed provident quod a
-                  qui neque voluptas? Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Cum architecto quia minima rerum adipisci
-                  iste eaque dignissimos ut consequatur et culpa rem sunt dicta
-                  nisi optio eos ipsa .
+                  {!! $product->description !!}
                 </p>
               </div>
             </div>
@@ -186,22 +182,12 @@
         data: {
           activePhoto: 0,
           photos: [
-            {
-              id: 1,
-              url: "/images/pic_detail1.jpg",
-            },
-            {
-              id: 2,
-              url: "/images/pic_detail2.png",
-            },
-            {
-              id: 3,
-              url: "/images/pic_detail5.jpg",
-            },
-            {
-              id: 4,
-              url: "/images/pic_detail3.jpg",
-            },
+            @foreach($product->galleries as $gallery)
+              {
+                id: {{ $gallery->id }},
+                url: "{{ Storage::url($gallery->photos) }}",
+              },
+            @endforeach
           ],
         },
         methods: {

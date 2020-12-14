@@ -33,17 +33,22 @@
                 </div>
                 <div class="form-group">
                   <label for="">Photo Product</label>
-                  <input type="file" name="photos" class="form-control @error('photos') is-invalid @enderror">
+                  <input type="file" multiple name="photos" class="form-control @error('photos') is-invalid @enderror">
                     @error('photos')
                       <div class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                       </div>
                     @enderror
                 </div>
-                <div class="form-group mt-4 text-right">
+                <div class="form-group mt-4 text-right mb-5">
                   <button type="submit" class="btn btn-success px-5">Save</button>
                 </div>
               </form>
+            </div>
+            <div class="col-lg-6" style="margin-top: -50px; margin-bottom: 50px;">
+              <div class="alert alert-info">
+                <span class="mt-2 text-muted text-small">setiap product harus menambahkan 4 photo product</span>
+              </div>
             </div>
           </div>
         </div>
