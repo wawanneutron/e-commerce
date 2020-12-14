@@ -20,7 +20,7 @@
                 v-model="name"
                 type="text" 
                 class="form-control 
-                @error('name') is-invalid @enderror" 
+                @error('name') is-invalid @enderror " 
                 name="name" value="{{ old('name') }}" 
                 required 
                 autocomplete="name" 
@@ -35,9 +35,13 @@
               <label for="">Email Address</label>
               <input id="email"
                 v-model="email"
+                @change="checkEmail()"
                 type="email" 
                 class="form-control 
-                @error('email') is-invalid @enderror" 
+                @error('email') is-valid @enderror
+                @error('email') is-invalid @enderror"
+                :class="{ 'is-invalid' : this.email_unavailable }"
+                :class="{ 'is-valid' : this.email_available }"  
                 name="email" value="{{ old('email') }}" 
                 required 
                 autocomplete="email">
@@ -142,7 +146,10 @@
               </select> 
             </div>
             <div class="btn-register">
-              <button type="submit" class="btn btn-success btn-block mt-4"
+              <button 
+              type="submit" 
+              class="btn btn-success btn-block mt-4"
+              :disabled="this.email_unavailable"
                 >Sign Up Now
               </button>
               <a href="{{ route('login') }}" class="btn btn-signup btn-block mt-3"
@@ -161,30 +168,62 @@
 @push('addon-script')
     <script src="/vendor/vue/vue.js"></script>
     <script src="https://unpkg.com/vue-toasted"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-      Vue.use(Toasted);
-      
+      Vue.use(Toasted); 
       var register = new Vue({
         el: "#register",
 
         mounted() {
           AOS.init();
-          this.$toasted.error(
-            "Maaf, tampaknya email yang anda masukan sudah terdaftar di sistem kami.",
-            {
-              position: "top-center",
-              className: "rounded",
-              duration: 3000,
-            }
-          );
+          
         },
-        data: {
-          name: "Wawan Setiawan",
-          email: "wawanneutron1331@gmail.com",
-          password: "",
-          is_store_open: true,
-          store_name: "",
+        methods: {
+          checkEmail: function() {
+            var self = this;
+            axios.get('{{ route('api-register-check') }}', {
+              params: {
+                email: this.email
+              }
+            })
+            .then(function (response) {
+
+              if(response.data == 'Available') {
+                  self.$toasted.success(
+                    "yay email anda tersedia! silahkan lanjut untuk mendaftar.",
+                    {
+                      position: "top-center",
+                      className: "rounded",
+                      duration: 3000,
+                    }
+                  );
+                  self.email_unavailable = false
+              } else {
+                  self.$toasted.error(
+                    "Maaf, tampaknya email yang anda masukan sudah terdaftar di sistem kami.",
+                    {
+                      position: "top-center",
+                      className: "rounded",
+                      duration: 3000,
+                    }
+                  );
+                  self.email_unavailable = true
+              }
+              // handle success
+              console.log(response);
+            });
+            
+          }
         },
+        data() {
+            return {
+            name: "Wawan Setiawan",
+            email: "wawanneutron1331@gmail.com",
+            is_store_open: true,
+            store_name: "",
+            email_unavailable: false,
+          }
+        }
       });
     </script>
 @endpush
