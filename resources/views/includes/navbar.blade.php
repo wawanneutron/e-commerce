@@ -113,17 +113,26 @@
                           alt="user"
                           class="rounded-circle mr-2 profile-picture shadow"
                       />
-                      {{-- cart mobile --}}
-                      <img
-                            src="{{ url('/images/shopping_empety.svg') }}"
-                            alt="chart empety"
-                        />
-                      <span class="ml-3">{{ Auth::user()->name }}</span>
+                      Hii, {{ Auth::user()->name }}
                   </a>
+                  
                   <div class="dropdown-menu">
-                      <a href="{{ route('cart') }}" class="dropdown-item">
-                          Cart</a
-                      >
+                      @php
+                          $carts = \App\Cart::where('users_id', Auth::user()->id)->count();
+                      @endphp
+                      @if ($carts > 0)
+                        <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2 ml-4 mb-4">
+                          <img src="/images/ic_cart_filed.svg" alt="chart empety" />
+                          <div class="card-badge">{{ $carts }}</div>
+                        </a>
+                      @else
+                        <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2 ml-4 mb-4">
+                          <img
+                          src="{{ url('/images/shopping_empety.svg') }}"
+                          alt="chart empety"
+                          />
+                        </a>
+                      @endif
                       <a href="{{ route('dashboard') }}" class="dropdown-item">
                           Dashboard</a
                       >
