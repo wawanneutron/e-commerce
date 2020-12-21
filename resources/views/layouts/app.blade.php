@@ -21,6 +21,7 @@
     {{-- navbar --}}
     @include('includes.navbar')
 
+    
     {{-- page content --}}
     @yield('content')
 

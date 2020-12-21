@@ -54,22 +54,23 @@
                 role="tabpanel"
                 aria-labelledby="pills-home-tab"
               >
+                @forelse ($products as $product)
                 <a
-                  href="{{ route('dashboard-transactions-details') }}"
+                  href="{{ route('dashboard-transactions-details', $product->id) }}"
                   class="card card-list d-block"
-                >
+                  >
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-md-2">
                         <img
-                          src="/images/ic_dashboard_product.png"
+                          src="{{ Storage::url($product->galleries->first()->photos ?? '') }}"
                           alt=""
                           class="img-list"
                         />
                       </div>
-                      <div class="col-md-3">Shirup Marzzan</div>
-                      <div class="col-md-3">Fajrin Tri S</div>
-                      <div class="col-md-3">12 Januari, 2020</div>
+                      <div class="col-md-3">{{ $product->name }}</div>
+                      <div class="col-md-3">{{ $product->user->name }}</div>
+                      <div class="col-md-3">{{ $product->created_at }}</div>
                       <div class="col-md-1 d-none d-md-block">
                         <img
                           src="/images/ic_dashboard_arrow_right.svg"
@@ -79,56 +80,9 @@
                     </div>
                   </div>
                 </a>
-                <a
-                  href="{{ route('dashboard-transactions-details') }}"
-                  class="card card-list d-block"
-                >
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-2">
-                        <img
-                          src="/images/ic_dashboard_product2.png"
-                          alt=""
-                          class="img-list"
-                        />
-                      </div>
-                      <div class="col-md-3">Shirup Marzzan</div>
-                      <div class="col-md-3">Fajrin Tri S</div>
-                      <div class="col-md-3">12 Januari, 2020</div>
-                      <div class="col-md-1 d-none d-md-block">
-                        <img
-                          src="/images/ic_dashboard_arrow_right.svg"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="{{ route('dashboard-transactions-details') }}"
-                  class="card card-list d-block"
-                >
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-md-2">
-                        <img
-                          src="/images/ic_dashboard_product3.png"
-                          alt=""
-                          class="img-list"
-                        />
-                      </div>
-                      <div class="col-md-3">Shirup Marzzan</div>
-                      <div class="col-md-3">Fajrin Tri S</div>
-                      <div class="col-md-3">12 Januari, 2020</div>
-                      <div class="col-md-1 d-none d-md-block">
-                        <img
-                          src="/images/ic_dashboard_arrow_right.svg"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </a>
+                @empty
+                    
+                @endforelse
               </div>
               <div
                 class="tab-pane fade"
@@ -137,7 +91,7 @@
                 aria-labelledby="pills-profile-tab"
               >
                 <a
-                  href="{{ route('dashboard-transactions-details') }}"
+                  href=""
                   class="card card-list d-block"
                 >
                   <div class="card-body">

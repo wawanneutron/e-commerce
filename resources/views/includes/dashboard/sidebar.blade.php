@@ -13,12 +13,12 @@
       >
       <a
         href="{{ route('dashboard-product') }}"
-        class="list-group-item list-group-item-action {{ (request()->is('dashboard/product','dashboard/product-details', 'dashboard/create-product')) ? 'active' : '' }}"  
+        class="list-group-item list-group-item-action {{ (request()->is('dashboard/product*','dashboard/create-product')) ? 'active' : '' }}"  
         >My Products</a
       >
       <a
         href="{{ route('dashboard-transactions') }}"
-        class="list-group-item list-group-item-action {{ (request()->is('dashboard/transactions', 'dashboard/transaction-details')) ? 'active' : '' }}"
+        class="list-group-item list-group-item-action {{ (request()->is('dashboard/transactions*', 'dashboard/transacations-details')) ? 'active' : '' }}"
         >Transactions</a
       >
       <a

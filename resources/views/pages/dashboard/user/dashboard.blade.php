@@ -18,7 +18,7 @@
             <div class="card mb-2">
               <div class="card-body">
                 <div class="dashboard-card-title">Customers</div>
-                <div class="dashboard-card-subtitle">15,209</div>
+                <div class="dashboard-card-subtitle">{{ number_format($customer) }}</div>
               </div>
             </div>
           </div>
@@ -26,7 +26,7 @@
             <div class="card mb-2">
               <div class="card-body">
                 <div class="dashboard-card-title">Revenues</div>
-                <div class="dashboard-card-subtitle">$931,290</div>
+                <div class="dashboard-card-subtitle">Rp. {{ number_format($revenue) }}</div>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@
             <div class="card mb-2">
               <div class="card-body">
                 <div class="dashboard-card-title">Transactions</div>
-                <div class="dashboard-card-subtitle">22,309,399</div>
+                <div class="dashboard-card-subtitle">{{ number_format($transaction_count) }}</div>
               </div>
             </div>
           </div>
@@ -47,85 +47,38 @@
         </div>
         <div class="row mt-0">
           <div class="col-12 col-sm-6 col-md-12 col-lg-12 mt-2">
+            @forelse ($transaction_data as $transaction)
             <a
-              href="{{ route('dashboard-transactions-details') }}"
+              href="{{ route('dashboard-transactions-details', $transaction->id) }}"
               class="card card-list d-block"
             >
               <div class="card-body">
                 <div class="row align-items-center">
                   <div class="col-md-2">
                     <img
-                      src="/images/ic_dashboard_product.png"
+                      src="{{ Storage::url($transaction->product->galleries->first()->photos ?? '') }}"
                       alt=""
                       class="img-list"
                     />
                   </div>
-                  <div class="col-md-3 col-lg-3">Shirup Marzzan</div>
-                  <div class="col-md-3 col-lg-3">Fajrin Tri S</div>
-                  <div class="col-md-3 col-lg-3">12 Januari, 2020</div>
+                  <div class="col-md-3 col-lg-3">{{ $transaction->product->name }}</div>
+                  <div class="col-md-3 col-lg-3">{{ $transaction->product->user->name }}</div>
+                  <div class="col-md-3 col-lg-3">{{ $transaction->created_at }}</div>
                   <div class="col-md-1 d-none d-md-block">
                     <img
-                      src="/images/ic_dashboard_arrow_right.svg"
+                      src="{{ url('/images/ic_dashboard_arrow_right.svg') }}"
                       alt=""
                     />
                   </div>
                 </div>
               </div>
             </a>
-          </div>
-          <div class="col-12 col-sm-6 col-md-12 col-lg-12 mt-2">
-            <a
-              href="{{ route('dashboard-transactions-details') }}"
-              class="card card-list d-block"
-            >
-              <div class="card-body">
-                <div class="row align-items-center">
-                  <div class="col-md-2">
-                    <img
-                      src="/images/ic_dashboard_product2.png"
-                      alt=""
-                      class="img-list"
-                    />
-                  </div>
-                  <div class="col-md-3 col-lg-3">Shirup Marzzan</div>
-                  <div class="col-md-3 col-lg-3">Fajrin Tri S</div>
-                  <div class="col-md-3 col-lg-3">12 Januari, 2020</div>
-                  <div class="col-md-1 d-none d-md-block">
-                    <img
-                      src="/images/ic_dashboard_arrow_right.svg"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-12 col-sm-6 col-md-12 col-lg-12 mt-2">
-            <a
-              href="{{ route('dashboard-transactions-details') }}"
-              class="card card-list d-block"
-            >
-              <div class="card-body">
-                <div class="row align-items-center">
-                  <div class="col-md-2">
-                    <img
-                      src="/images/ic_dashboard_product3.png"
-                      alt=""
-                      class="img-list"
-                    />
-                  </div>
-                  <div class="col-md-3 col-lg-3">Shirup Marzzan</div>
-                  <div class="col-md-3 col-lg-3">Fajrin Tri S</div>
-                  <div class="col-md-3 col-lg-3">12 Januari, 2020</div>
-                  <div class="col-md-1 d-none d-md-block">
-                    <img
-                      src="/images/ic_dashboard_arrow_right.svg"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-            </a>
+            @empty
+            <div class="alert alert-info mt-5">
+              <p class=" text-center">You don't have recent transactions</p>
+            </div>
+            @endforelse
+            <span>{{ $transaction_data->links() }}</span>
           </div>
         </div>
       </div>

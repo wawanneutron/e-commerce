@@ -69,6 +69,13 @@
                   class="btn btn-signup btn-block w-75 mt-3"
                   >Sign Up</a
                 >
+                @if (Route::has('password.request'))
+                  <a
+                    href="{{ route('password.request') }}"
+                    class="btn btn-link btn-signup btn-block w-75 mt-3"
+                    >Forgot Your Password</a
+                  >
+                @endif
               </form>
             </div>
           </div>
@@ -76,7 +83,7 @@
       </section>
     </div>
 
-    {{-- sementara dihidden --}}
+    {{-- Auth login bawaan --}}
     <div class="container" hidden>
         <div class="row justify-content-center">
             <div class="col-md-8">

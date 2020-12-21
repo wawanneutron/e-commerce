@@ -37,6 +37,9 @@
               Hi, {{ Auth::user()->name }}
             </a>
             <div class="dropdown-menu text-black-50">
+              @if (Auth::user() && Auth::user()->roles == 'ADMIN')
+                <a href="{{ route('admin-dashboard') }}" class="dropdown-item mb-2"> Admin Dashboarad</a>
+              @endif
               <a href="{{ route('home') }}" class="dropdown-item mb-2"> Home</a>
               <a href="{{ route('logout') }}"
                 onclick="event.preventDefault();
@@ -49,11 +52,23 @@
               </form>
             </div>
           </li>
+          @php
+              $carts = \App\Cart::where('users_id', Auth::user()->id)->count();
+          @endphp
           <li class="nav-item">
-            <a href="#" class="nav-link d-inline-block mt-2">
-              <img src="/images/ic_cart_filed.svg" alt="chart empety" />
-              <div class="card-badge">3</div>
-            </a>
+            @if ($carts > 0)
+              <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
+                <img src="/images/ic_cart_filed.svg" alt="chart empety" />
+                <div class="card-badge">{{ $carts }}</div>
+              </a>
+            @else
+              <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
+                <img
+                src="{{ url('/images/shopping_empety.svg') }}"
+                alt="chart empety"
+                />
+              </a>
+            @endif
           </li>
         </ul>
         <!-- mobile menu -->
@@ -73,8 +88,19 @@
               Hi, {{ Auth::user()->name }}
               {{-- cart mobile --}}
               <div class="d-inline-block ml-2">
-                <img src="/images/ic_cart_filed.svg" alt="chart empety" />
-                <div class="card-badge">3</div>
+                  @if ($carts > 0)
+                    <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
+                      <img src="/images/ic_cart_filed.svg" alt="chart empety" />
+                      <div class="card-badge">{{ $carts }}</div>
+                    </a>
+                  @else
+                    <a href="{{ route('cart') }}" class="nav-link d-inline-block mt-2">
+                      <img
+                      src="{{ url('/images/shopping_empety.svg') }}"
+                      alt="chart empety"
+                      />
+                    </a>
+                  @endif
               </div>
             </a>
             <div class="dropdown-menu">

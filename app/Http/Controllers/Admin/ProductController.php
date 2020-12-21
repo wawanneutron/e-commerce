@@ -6,6 +6,7 @@ use App\Category;
 use App\Product;
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProductRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
@@ -73,7 +74,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $new_product = $request->all();
         $new_product['slug'] = Str::slug($request->name);

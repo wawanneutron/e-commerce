@@ -30,6 +30,9 @@
           
           {{-- navbar --}}
           @include('includes.dashboard.navbar')
+
+          {{-- alert --}}
+          @include('includes.dashboard.alert')
           
           {{-- content --}}
           @yield('content')

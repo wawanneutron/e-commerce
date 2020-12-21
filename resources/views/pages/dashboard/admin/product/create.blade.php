@@ -55,11 +55,21 @@
                 </div>
                 <div class="form-group">
                   <label for="">Harga Product</label>
-                  <input type="number" name="price" class="form-control">
+                  <input type="number" name="price" class="form-control @error('price') is-invalid @enderror">
+                  @error('price')
+                    <div class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </div>
+                  @enderror
                 </div>
                 <div class="form-group">
                   <label for="">Description</label>
-                  <textarea name="description" id="editor" cols="30" rows="10"></textarea>
+                  <textarea name="description" class="@error('description') is-invalid @enderror" id="editor" cols="30" rows="10"></textarea>
+                  @error('price')
+                    <div class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </div>
+                  @enderror
                 </div>
                 <div class="form-group mt-4 text-right">
                   <button type="submit" class="btn btn-success px-5">Save</button>

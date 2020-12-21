@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\GalleryRequest;
+use App\Http\Requests\Admin\ProductRequest;
+use App\Product;
+use App\ProductGallery;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardProductController extends Controller
 {
@@ -14,7 +21,12 @@ class DashboardProductController extends Controller
      */
     public function index()
     {
-        return view('pages.dashboard.user.product.index');
+        $products = Product::with('galleries', 'category')
+            ->where('users_id', Auth::user()->id)
+            ->get();
+        return view('pages.dashboard.user.product.index', [
+            'products' => $products
+        ]);
     }
 
     /**
@@ -24,7 +36,10 @@ class DashboardProductController extends Controller
      */
     public function create()
     {
-        return view('pages.dashboard.user.product.create-product');
+        $categories = Category::all();
+        return view('pages.dashboard.user.product.create-product', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -33,9 +48,20 @@ class DashboardProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $new_product = $request->all();
+        $new_product['slug'] = Str::slug($request->name);
+
+        $product = Product::create($new_product);
+        $gallery = [
+            'products_id' => $product->id,
+            'photos' => $request->file('photos')->store('product-gallery', 'public')
+        ];
+        ProductGallery::create($gallery);
+
+        return redirect()->route('dashboard-product')
+            ->with('status-success', 'Adding product is succesfully');
     }
 
     /**
@@ -44,9 +70,16 @@ class DashboardProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Request $request, $id)
     {
-        return view('pages.dashboard.user.product.product-details');
+        $product = Product::with('galleries', 'category')
+            ->findOrFail($id);
+        $categories = Category::all();
+
+        return view('pages.dashboard.user.product.product-details', [
+            'product' => $product,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -67,9 +100,17 @@ class DashboardProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        $data = Product::findOrFail($id);
+
+        $update_product = $request->all();
+        $update_product['slug'] = Str::slug($request->name);
+
+        $data->update($update_product);
+
+        return redirect()->route('dashboard-product')
+            ->with('status-success', 'Update product is succesfully');
     }
 
     /**
@@ -78,8 +119,22 @@ class DashboardProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $destroy = ProductGallery::findOrFail($id);
+        $destroy->delete();
+
+        return redirect()->route('details-product', $destroy->products_id)
+            ->with('status-destroy', 'Deleted image product is succesfully');
+    }
+
+    public function uploadGallery(GalleryRequest $request)
+    {
+        $data = $request->all();
+        $data['photos'] = $request->file('photos')->store('product-gallery', 'public');
+        ProductGallery::create($data);
+
+        return redirect()->route('details-product', $request->products_id)
+            ->with('status-success', 'Upload image product is succesfully');
     }
 }

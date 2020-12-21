@@ -14,39 +14,62 @@
       <div class="dashboard-content">
         <div class="row">
           <div class="col-12">
-            <form action="#">
+            <form action="{{ route('store-product') }}" method="POST" enctype="multipart/form-data">
+              @csrf
+              <input type="hidden" name="users_id" value="{{ Auth::user()->id }}">
               <div class="card">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="storeName">Product Name</label>
-                        <input type="text" class="form-control" />
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" />
+                        @error('name')
+                          <span class="invalid-feedback">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="storeName">Price </label>
-                        <input type="number" class="form-control" />
+                        <input type="number" class="form-control @error('price') is-invalid @enderror" name="price"/>
+                        @error('price')
+                          <span class="invalid-feedback">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
                         <label for="">Category</label>
-                        <select
-                          name="category"
-                          id=""
-                          class="form-control"
-                        >
-                          <option value="">Shipping</option>
-                          <option value="">Electronic</option>
+                          <select
+                            name="categories_id"
+                            id=""
+                            class="form-control @error('categories_id') is-invalid @enderror"
+                          >
+                          @foreach ($categories as $category)
+                              <option value="{{ $category->id }}">{{ $category->name }}</option>
+                          @endforeach
                         </select>
+                        @error('categories_id')
+                          <span class="invalid-feedback">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
                         <label for="">Descriptions</label>
-                        <textarea name="editor"></textarea>
+                        <textarea id="editor" name="description" class="@error('description') is-invalid @enderror"></textarea>
+                        @error('description')
+                          <span class="invalid-feedback">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
                       </div>
                     </div>
                     <div class="col-md-12 col-lg-6 was-validated">
@@ -55,12 +78,13 @@
                         <div class="custom-file mb-3">
                           <input
                             type="file"
+                            name="photos"
                             class="custom-file-input"
                             id="validatedCustomFile"
                             required
                           />
                           <label
-                            class="custom-file-label"
+                            class="custom-file-label @error('photos') is-invalid @enderror"
                             for="validatedCustomFile"
                             >Choose file...</label
                           >
@@ -70,6 +94,11 @@
                           <p class="text-muted">
                             You can select more than one file
                           </p>
+                          @error('photos')
+                            <span class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                            </span>
+                          @enderror
                         </div>
                       </div>
                     </div>

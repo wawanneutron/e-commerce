@@ -29,19 +29,19 @@
         <div class="row" data-aos="fade-up" data-aos-delay="100">
           <div class="col-12 table-responsive">
             <table class="table table-borderless table-cart">
-              <thead>
-                <tr>
-                  <td>Image</td>
-                  <td>Name &amp; Seller</td>
-                  <td>Price</td>
-                  <td>Menu</td>
-                </tr>
-              </thead>
-              <tbody>
-                @php
-                    $totalPrice = 0
-                @endphp
-                @forelse ($carts as $cart)
+              @php
+                $totalPrice = 0
+              @endphp
+              @forelse ($carts as $cart)
+                <thead>
+                  <tr>
+                    <td>Image</td>
+                    <td>Name &amp; Seller</td>
+                    <td>Price</td>
+                    <td>Menu</td>
+                  </tr>
+                </thead>
+                <tbody>
                   <tr>
                     <td style="width: 30%" class="align-middle">
                       <img
@@ -73,19 +73,23 @@
                     </td>
                   </tr>
                   @php
-                      $totalPrice += $cart->product->price
+                    $totalPrice += $cart->product->price
                   @endphp
-                @empty
-                    <td colspan="100%">
-                      <div class="alert alert-info mt-5">
-                        <p class=" text-center">You don't have cart, please add to cart</p>
-                      </div>
-                    </td>
-                @endforelse
+              @empty
+                  <td colspan="100%">
+                    <div class="alert alert-info mt-5">
+                      <p class=" text-center">You don't have cart, please add to cart product</p>
+                    </div>
+                  </td>
+              @endforelse
               </tbody>
             </table>
           </div>
         </div>
+        @php
+            $shipping = \App\Cart::where('users_id', Auth::user()->id)->count();
+        @endphp
+        @if ($shipping > 0)
         <div class="row" data-aos="fade-up" data-aos-delay="150">
           <div class="col-12">
             <hr />
@@ -94,7 +98,9 @@
             <h2 class="mb-4">Shipping Details</h2>
           </div>
         </div>
-        <form action="" id="locations">
+        <form action="{{ route('checkout') }}" id="locations" enctype="multipart/form-data" method="POST">
+          @csrf
+          <input type="hidden" name="total_price" value="{{ $totalPrice }}">
           <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
             <div class="col-md-6">
               <div class="form-group">
@@ -103,7 +109,7 @@
                   type="text"
                   class="form-control"
                   id="addressOne"
-                  name="addressOne"
+                  name="address_one"
                   placeholder="pleace input addres"
                 />
               </div>
@@ -115,7 +121,7 @@
                   type="text"
                   class="form-control"
                   id="addressTwo"
-                  name="addressTwo"
+                  name="address_two"
                   placeholder="pleace input addres"
                 />
               </div>
@@ -143,7 +149,7 @@
                 <label for="">Postal Code</label>
                 <input
                   type="text"
-                  name="postalcode"
+                  name="zip_code"
                   id="Postal Code"
                   class="form-control"
                   placeholder="15720"
@@ -168,14 +174,13 @@
                 <input
                   type="text"
                   id="mobile"
-                  name="mobile"
+                  name="phone_number"
                   class="form-control"
                   placeholder="+628 2020 11111"
                 />
               </div>
             </div>
-          </div>
-          
+          </div> 
           <div class="row" data-aos="fade-up" data-aos-delay="200">
             <div class="col-12">
               <h2 class="mb-4">Payment Informations</h2>
@@ -197,12 +202,13 @@
               <div class="product-subtitle">Total</div>
             </div>
             <div class="col-8 col-md-3 mb-4">
-              <a href="{{ route('success') }}" class="btn btn-success px-4 btn-block"
-                >Checkout Now</a
-              >
+              <button type="submit" class="btn btn-success px-4 btn-block">Checkout Now</button>
             </div>
           </div>
         </form>
+        @else
+            {{-- don't show shipping --}}
+        @endif
       </div>
     </section>
   </div>

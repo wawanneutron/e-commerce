@@ -178,7 +178,7 @@
         mounted() {
           AOS.init();
         },
-
+        
         data: {
           activePhoto: 0,
           photos: [
