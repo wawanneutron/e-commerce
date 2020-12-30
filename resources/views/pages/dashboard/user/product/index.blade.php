@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-
+@section('alert')
 @section('content')
   <!-- section content -->
   <div

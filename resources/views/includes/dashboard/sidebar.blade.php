@@ -18,7 +18,7 @@
       >
       <a
         href="{{ route('dashboard-transactions') }}"
-        class="list-group-item list-group-item-action {{ (request()->is('dashboard/transactions*', 'dashboard/transacations-details')) ? 'active' : '' }}"
+        class="list-group-item list-group-item-action {{ (request()->is('dashboard/transactions', 'dashboard/transaction-details*')) ? 'active' : '' }}"
         >Transactions</a
       >
       <a

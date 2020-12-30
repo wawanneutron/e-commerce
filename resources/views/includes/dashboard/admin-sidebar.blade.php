@@ -27,8 +27,8 @@
         >Categories</a
       >
       <a
-        href="#"
-        class="list-group-item list-group-item-action"
+        href="{{ route('dashboard-transacations') }}"
+        class="list-group-item list-group-item-action {{ (request()->is('admin/dashboard-transacations')) ? 'active' : '' }}"
         >Transactions</a
       >
       <a

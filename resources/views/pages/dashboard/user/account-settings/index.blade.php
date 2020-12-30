@@ -14,38 +14,11 @@
       <div class="dashboard-content">
         <div class="row">
           <div class="col-12">
-            <form action="#">
+            <form action="{{ route('account-update') }}" id="locations" enctype="multipart/form-data" method="POST">
+              @csrf
               <div class="card">
                 <div class="card-body">
-                  <div
-                    class="row mb-2"
-                    data-aos="fade-up"
-                    data-aos-delay="200"
-                  >
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Your Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="addressOne"
-                          name="addressOne"
-                          placeholder="Wawan setiawan"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Your Email</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="addressTwo"
-                          name="addressTwo"
-                          placeholder="palazo@gmail.com"
-                        />
-                      </div>
-                    </div>
+                  <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="">Address 1</label>
@@ -53,8 +26,9 @@
                           type="text"
                           class="form-control"
                           id="addressOne"
-                          name="addressOne"
+                          name="address_one"
                           placeholder="pleace input addres"
+                          value="{{ $item->address_one }}"
                         />
                       </div>
                     </div>
@@ -65,33 +39,30 @@
                           type="text"
                           class="form-control"
                           id="addressTwo"
-                          name="addressTwo"
+                          name="address_two"
                           placeholder="pleace input addres"
+                          value="{{ $item->address_two }}"
                         />
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="">Province</label>
-                        <select
-                          name="province"
-                          id="province"
-                          class="form-control custom-select"
-                        >
-                          <option value="West Java">West Java</option>
+                        <p class=" text-muted">{{ App\Models\Province::find($item->provinces_id)->name ?? 'not address' }}</p>
+                        <select name="provinces_id" id="provinces_id" class="form-control" v-if="provinces" v-model="provinces_id">
+                          <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
                         </select>
+                        <select v-else class="form-control"></select>
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="">City</label>
-                        <select
-                          name="city"
-                          id="city"
-                          class="form-control custom-select"
-                        >
-                          <option value="Bandung">Bandung</option>
+                        <p class="text-muted">{{ App\Models\Regency::find($item->regencies_id)->name ?? 'not address' }}</p>
+                        <select name="regencies_id" id="regencies_id" class="form-control" v-if="regencies" v-model="regencies_id">
+                          <option v-for="regency in regencies" :value="regency.id">@{{ regency.name }}</option>
                         </select>
+                        <select v-else class="form-control"></select>
                       </div>
                     </div>
                     <div class="col-md-4">
@@ -99,10 +70,11 @@
                         <label for="">Postal Code</label>
                         <input
                           type="text"
-                          name="postalcode"
+                          name="zip_code"
                           id="Postal Code"
                           class="form-control"
                           placeholder="15720"
+                          value="{{ $item->zip_code }}"
                         />
                       </div>
                     </div>
@@ -115,6 +87,7 @@
                           name="country"
                           class="form-control"
                           placeholder="Indonesia"
+                          value="{{ $item->country }}"
                         />
                       </div>
                     </div>
@@ -124,9 +97,10 @@
                         <input
                           type="text"
                           id="mobile"
-                          name="mobile"
+                          name="phone_number"
                           class="form-control"
                           placeholder="+628 2020 11111"
+                          value="{{ $item->phone_number }}"
                         />
                       </div>
                     </div>
@@ -135,7 +109,7 @@
                     <div class="col text-right">
                       <button
                         type="submit"
-                        class="btn btn-success px-5"
+                        class="btn btn-success px-5 mt-4 mb-3"
                       >
                         Save Now
                       </button>
@@ -150,3 +124,45 @@
     </div>
   </div>
 @endsection
+
+@push('addon-script')
+    <script src="{{ url('/vendor/vue/vue.js') }}"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      var locations = new Vue({
+        el: "#locations",
+        mounted() {
+          AOS.init();
+          this.getProvincesData();
+        },
+        data: {
+          provinces: null,
+          regencies: null,
+          provinces_id: null,
+          regencies_id: null,
+        },
+        methods: {
+          getProvincesData() {
+            var self = this;
+            axios.get('{{ route('api-provinces') }}')
+              .then(function(response){
+                self.provinces = response.data;
+              })
+          },
+          getRegenciesData() {
+            var self = this;
+            axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
+              .then(function(response){
+                self.regencies = response.data;
+              })
+          },
+        },
+        watch: {
+          provinces_id: function(val, oldVal) {
+            this.regencies_id = null;
+            this.getRegenciesData();
+          }
+        }
+      });
+    </script>
+@endpush

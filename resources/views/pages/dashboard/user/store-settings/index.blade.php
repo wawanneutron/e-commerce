@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-
+@section('alert')
 @section('content')
   <!-- section content -->
   <div
@@ -14,27 +14,29 @@
       <div class="dashboard-content">
         <div class="row">
           <div class="col-12">
-            <form action="#">
+            <form action="{{ route('store-update') }}" method="POST" enctype="multipart/form-data">
+              @csrf 
               <div class="card">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="storeName">Store Name</label>
-                        <input type="text" class="form-control" />
+                        <input type="text" class="form-control" name="store_name" value="{{ $store->store_name }}"/>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="formg-group">
                         <label for="">Category</label>
                         <select
-                          name="category"
+                          name="categories_id"
                           id="category"
                           class="custom-select form-control"
                         >
-                          <option value="">Select Category</option>
-                          <option value="">Electronic</option>
-                          <option value="">Tshrert</option>
+                        <option value="{{ $store->categories_id }}">not change</option>
+                         @foreach ($categories as $category)
+                             <option value="{{ $category->id }}">{{ $category->name }}</option>
+                         @endforeach
                         </select>
                       </div>
                     </div>
@@ -50,8 +52,10 @@
                           <input
                             type="radio"
                             class="custom-control-input"
-                            name="is_store_open"
+                            name="store_status"
                             id="openStoreTrue"
+                            value="1"
+                            {{ $store->store_status == 1 ? 'checked' : '' }}
                           />
                           <label
                             for="openStoreTrue"
@@ -65,8 +69,10 @@
                           <input
                             type="radio"
                             class="custom-control-input"
-                            name="is_store_open"
+                            name="store_status"
                             id="openStoreFalse"
+                            value="0"
+                            {{ $store->store_status == 0 || $store->store_status == NULL ? 'checked' : '' }}
                           />
                           <label
                             for="openStoreFalse"

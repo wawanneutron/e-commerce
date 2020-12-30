@@ -54,32 +54,32 @@
                 role="tabpanel"
                 aria-labelledby="pills-home-tab"
               >
-                @forelse ($products as $product)
-                <a
-                  href="{{ route('dashboard-transactions-details', $product->id) }}"
-                  class="card card-list d-block"
-                  >
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-md-2">
-                        <img
-                          src="{{ Storage::url($product->galleries->first()->photos ?? '') }}"
-                          alt=""
-                          class="img-list"
-                        />
-                      </div>
-                      <div class="col-md-3">{{ $product->name }}</div>
-                      <div class="col-md-3">{{ $product->user->name }}</div>
-                      <div class="col-md-3">{{ $product->created_at }}</div>
-                      <div class="col-md-1 d-none d-md-block">
-                        <img
-                          src="/images/ic_dashboard_arrow_right.svg"
-                          alt=""
-                        />
+                @forelse ($sellProducts as $sell)
+                  <a
+                    href="{{ route('details-product', $sell->id) }}"
+                    class="card card-list d-block"
+                    >
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col-md-2">
+                          <img
+                            src="{{ Storage::url($sell->galleries->first()->photos ?? '') }}"
+                            alt=""
+                            class="img-list"
+                          />
+                        </div>
+                        <div class="col-md-3">{{ $sell->name }}</div>
+                        <div class="col-md-3">{{ $sell->user->store_name }}</div>
+                        <div class="col-md-3">{{ $sell->created_at }}</div>
+                        <div class="col-md-1 d-none d-md-block">
+                          <img
+                            src="/images/ic_dashboard_arrow_right.svg"
+                            alt=""
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </a>
+                  </a>
                 @empty
                     
                 @endforelse
@@ -90,32 +90,35 @@
                 role="tabpanel"
                 aria-labelledby="pills-profile-tab"
               >
-                <a
-                  href=""
-                  class="card card-list d-block"
-                >
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-md-2">
-                        <img
-                          src="/images/ic_dashboard_product3.png"
-                          alt=""
-                          class="img-list"
-                        />
-                      </div>
-                      <div class="col-md-3">Shirup Marzzan</div>
-                      <div class="col-md-3">Fajrin Tri S</div>
-                      <div class="col-md-3">12 Januari, 2020</div>
-                      <div class="col-md-1 d-none d-md-block">
-                        <img
-                          src="/images/ic_dashboard_arrow_right.svg"
-                          alt=""
-                        />
+                @forelse ($buyTransactions as $buy)
+                  <a
+                    href="{{ route('dashboard-transactions-details', $buy->id) }}"
+                    class="card card-list d-block"
+                    >
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col-md-2">
+                          <img
+                            src="{{ Storage::url($buy->product->galleries->first()->photos ?? '') }}"
+                            alt=""
+                            class="img-list"
+                          />
+                        </div>
+                        <div class="col-md-3">{{ $buy->product->name }}</div>
+                        <div class="col-md-3">{{ $buy->product->user->store_name }}</div>
+                        <div class="col-md-3">{{ $buy->created_at }}</div>
+                        <div class="col-md-1 d-none d-md-block">
+                          <img
+                            src="/images/ic_dashboard_arrow_right.svg"
+                            alt=""
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </a>
-              </div>
+                  </a>
+                @empty
+                    
+                @endforelse
             </div>
           </div>
         </div>

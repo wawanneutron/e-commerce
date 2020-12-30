@@ -63,12 +63,19 @@ Route::group(['middleware' => ['auth']], function () {
     ->name('dashboard-transactions');
   Route::get('/dashboard/transaction-details/{id}', 'User\DashboardTransactionController@details')
     ->name('dashboard-transactions-details');
+  Route::post('/dashboard/transaction-update/{id}', 'User\DashboardTransactionController@update')
+    ->name('dashboard-transactions-update');
 
   // store settings and account setting
-  Route::get('/dashboard/store-settings', 'User\DashboardSettingController@store')
+  Route::get('/dashboard/store-settings', 'User\DashboardSettingController@show')
     ->name('store-settings');
+  Route::post('/dashboard/store-update', 'User\DashboardSettingController@updateStore')
+    ->name('store-update');
+
   Route::get('/dashboard/account-settings', 'User\DashboardSettingController@account')
     ->name('account-settings');
+  Route::post('/dashboard/account-update', 'User\DashboardSettingController@accountUpdate')
+    ->name('account-update');
 });
 
 
@@ -83,6 +90,8 @@ Route::prefix('admin')
     Route::resource('/account-user', 'UserController');
     Route::resource('/dashboard-products', 'ProductController');
     Route::resource('/dashboard-gallery', 'GalleryController');
+    Route::get('/dashboard-transacations', 'DashboaradTransacations@index')
+      ->name('dashboard-transacations');
   });
 
 Auth::routes();
